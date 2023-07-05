@@ -37,21 +37,30 @@ def InvestorData() :
     
     # for i in properties:
     #     print(i)
-    sourcePath = '/Users/amandamonaco/Documents/Folder Automation/12Month'
+   
+   
     
+
+    #   Next 16 lines create a folder with the name of the property as the name of the folder, and populates each folder with
+    #   the financial statements pertinent to that property
+    sourcePath = '/Users/amandamonaco/Documents/Folder Automation/12Month'
     root_dir = 'Property Financial Statements'
-    # os.makedirs(root_dir)
+
     for fileName in os.scandir(sourcePath):
         if fileName.is_file():
             f = str(fileName)
             endingIndex = f.find('12')
+            findDash = f.find('-')
+            if(findDash != -1):
+                endingIndex = findDash
             startingIndex = 11
+
             trimmedFileName = f[startingIndex:endingIndex]
             propFolderName = str(root_dir) + '/' + str(trimmedFileName)
             try:
                 os.makedirs(propFolderName)
             except FileExistsError:
-                print('File ', trimmedFileName, ' already exists')
+                print('Folder ', trimmedFileName, ' already exists')
 
             shutil.copy(fileName, propFolderName)
 
