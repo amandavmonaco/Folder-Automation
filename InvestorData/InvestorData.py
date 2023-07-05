@@ -39,22 +39,24 @@ def InvestorData() :
     #     print(i)
     sourcePath = '/Users/amandamonaco/Documents/Folder Automation/12Month'
     
-    
+    root_dir = 'Property Financial Statements'
+    # os.makedirs(root_dir)
     for fileName in os.scandir(sourcePath):
         if fileName.is_file():
-            print(fileName)
             f = str(fileName)
             endingIndex = f.find('12')
-            # singleQuote = f.find('\'')
-            # doubleQuote = f.find('\"')
-            startingIndex = 11 
-      
-            print(startingIndex, " " ,endingIndex)
-            print(f[startingIndex:endingIndex])
-            for p in properties: 
-                if str(p) == fileName:
-                    print('P: ' + p)
+            startingIndex = 11
+            trimmedFileName = f[startingIndex:endingIndex]
+            propFolderName = str(root_dir) + '/' + str(trimmedFileName)
+            try:
+                os.makedirs(propFolderName)
+            except FileExistsError:
+                print('File ', trimmedFileName, ' already exists')
+
+            shutil.copy(fileName, propFolderName)
+
                 
+        
     
 
     
