@@ -11,38 +11,7 @@ from ListOfInvestors import *
 
 
 def InvestorData() :
-    try: 
-        excelFile = pd.read_excel("InvestorPropertiesPyFile.xlsx")
-    except FileNotFoundError:
-        print('Financial distribution file not found')
 
-    investorKeyDictionary = {}
-
-    for column in excelFile:
-        column_values = excelFile[column].tolist()
-        filtered_values = [value for value in column_values if not pd.isnull(value)]
-        investorKeyDictionary[column] = filtered_values
-
-    properties = set()
-    root_directory = 'Investor Financial Data'
-    for investor in investorKeyDictionary.keys():
-        for property in investorKeyDictionary[investor]:
-            properties.add(property)
-            dir_name = str(root_directory) + '/' + str(investor) + '/' + str(property)
-            try:
-                os.makedirs(dir_name)
-                print('Directory ' + dir_name + ' created')
-            except FileExistsError:
-                print('Directory ' + dir_name + ' already exists') 
-    
-    # for i in properties:
-    #     print(i)
-   
-   
-    
-
-    #   Next 16 lines create a folder with the name of the property as the name of the folder, and populates each folder with
-    #   the financial statements pertinent to that property
     sourcePath = '/Users/amandamonaco/Documents/Folder Automation/12Month'
     root_dir = 'Property Financial Statements'
 
@@ -64,10 +33,35 @@ def InvestorData() :
 
             shutil.copy(fileName, propFolderName)
 
-                
-        
-    
 
+    try: 
+        excelFile = pd.read_excel("InvestorPropertiesPyFile.xlsx")
+    except FileNotFoundError:
+        print('Financial distribution file not found')
+
+    investorKeyDictionary = {}
+
+    for column in excelFile:
+        column_values = excelFile[column].tolist()
+        filtered_values = [value for value in column_values if not pd.isnull(value)]
+        investorKeyDictionary[column] = filtered_values
+
+    # properties = set()
+    root_directory = 'Investor Financial Data'
+    for investor in investorKeyDictionary.keys():
+        for property in investorKeyDictionary[investor]:
+            # properties.add(property)
+            dir_name = str(root_directory) + '/' + str(investor) + '/' + str(property)
+            src_name = str(root_dir) + '/' + str(property)
+            try:
+                os.makedirs(dir_name)
+                print('Directory ' + dir_name + ' created')
+            except FileExistsError:
+                print('Directory ' + dir_name + ' already exists') 
+
+            # shutil.copy2(src_name, dir_name)
+    # for i in properties:
+ 
     
     # print(os.listdir(sourcePath))
 
