@@ -4,15 +4,10 @@ import os
 import shutil
 from ListOfInvestors import *
 
-# path = '/Users/amandamonaco/Documents/Folder-Automation'
 
-# print("Before moving file: ")
-# print(os.listdir(path))
-
+sourcePath = '/Users/amandamonaco/Documents/Folder Automation/12Month'
 
 def InvestorData() :
-
-    sourcePath = '/Users/amandamonaco/Documents/Folder Automation/12Month'
     root_dir = 'Property Financial Statements'
 
     for fileName in os.scandir(sourcePath):
@@ -46,27 +41,30 @@ def InvestorData() :
         filtered_values = [value for value in column_values if not pd.isnull(value)]
         investorKeyDictionary[column] = filtered_values
 
-    # properties = set()
     root_directory = 'Investor Financial Data'
     for investor in investorKeyDictionary.keys():
         for property in investorKeyDictionary[investor]:
-            # properties.add(property)
             dir_name = str(root_directory) + '/' + str(investor) + '/' + str(property)
             src_name = str(root_dir) + '/' + str(property)
             try:
                 os.makedirs(dir_name)
                 print('Directory ' + dir_name + ' created')
             except FileExistsError:
-                print('Directory ' + dir_name + ' already exists') 
-
-            # shutil.copy2(src_name, dir_name)
-    # for i in properties:
- 
+                print('Directory ' + dir_name + ' already exists')     
     
-    # print(os.listdir(sourcePath))
+
+def PopulatePropertyFolders():
+    print(os.listdir(sourcePath))
+    for fileName in os.scandir(sourcePath):
+        print(fileName)
+        
 
 
-InvestorData()
+
+
+# InvestorData()
+PopulatePropertyFolders()
+
 
 # Determine which properties are current
 # Create a folder for each of these properties
