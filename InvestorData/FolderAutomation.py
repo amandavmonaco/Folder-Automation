@@ -23,8 +23,6 @@ def TestFunctionToPrintDictionary():
             print(' INVESTOR: ' + investors)
 
 
-# Property Key Dictionary is correctly populating and the excel file has been restructured
-
 def CreatePropertyFoldersWithFinancialStatements():
     root_dir = 'Property Folders'
     for fileName in os.scandir(financialDocumentsPath):
@@ -54,7 +52,6 @@ def CreateInvestorFoldersWithPropertyStatements():
 
     for folder in os.scandir('Property Folders'):
         investorNames = propertyKeyDictionary.get(folder.name)
-        # print(' PROP NAME: ' + folder.name + ' INVESTOR NAMES: ' + str(propName))
         if investorNames != None:  
             for i in investorNames:
                 try: 
@@ -67,6 +64,5 @@ def CreateInvestorFoldersWithPropertyStatements():
 
 
 CreateInvestorPropertyDictionary()
-# TestFunctionToPrintDictionary()
 CreatePropertyFoldersWithFinancialStatements()
 CreateInvestorFoldersWithPropertyStatements()
