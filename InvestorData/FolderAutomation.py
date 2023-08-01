@@ -61,7 +61,7 @@ def CreateInvestorFoldersWithPropertyStatements():
                     path = os.makedirs(str(root_dir) + '/' + i)
                 except FileExistsError:
                     print(i + ' folder already created')
-                shutil.move('Property Folders/' + folder.name, 'Investor Folders/' + i)
+                shutil.copytree('Property Folders/' + folder.name, 'Investor Folders/' + i + '/' + folder.name)
                 
                 
 
