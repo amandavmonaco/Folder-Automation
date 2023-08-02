@@ -5,7 +5,9 @@ from MonthAndYearFormat import *
 
 financialDocumentsPath = '/Users/amandamonaco/Documents/Folder Automation/12Month'
 propertyKeyDictionary = {}
-
+balanceSheetsPath = 'Bal Sheet'
+rentRollPath = 'Rent Roll'
+ytdPath = 'YTD'
 
 def CreateInvestorPropertyDictionary():
     try:
@@ -17,6 +19,7 @@ def CreateInvestorPropertyDictionary():
         column_values = excelFile[column].tolist()
         filtered_values = [value for value in column_values if not pd.isnull(value)]
         propertyKeyDictionary[column] = filtered_values
+
 
 def TestFunctionToPrintDictionary():
     for propertyKey in propertyKeyDictionary.keys():
@@ -35,9 +38,6 @@ def CreatePropertyFolders():
         except:
             print(property + ' Directory Exists')
 
-balanceSheetsPath = 'Bal Sheet'
-rentRollPath = 'Rent Roll'
-ytdPath = 'YTD'
 
 def BalanceSheet():
    dest_dir = MonthYearFormat() + '/Property Folders'
@@ -54,6 +54,7 @@ def BalanceSheet():
                 os.makedirs(dest_dir + '/' + trimmedName)
                 shutil.copy(file, dest_dir + '/' + trimmedName)
 
+
 def IncomeStatement():
    dest_dir = MonthYearFormat() + '/Property Folders'
 
@@ -68,7 +69,8 @@ def IncomeStatement():
            else:
                 os.makedirs(dest_dir + '/' + trimmedName)
                 shutil.copy(file, dest_dir + '/' + trimmedName)
-               
+
+
 def RentRoll():
     dest_dir = MonthYearFormat() + '/Property Folders'
 
@@ -98,10 +100,8 @@ def CreateInvestorFoldersWithPropertyStatements():
                 except FileExistsError:
                     print(folder.name + ' Directory Exists')
                     
-                
-                
 
-
+#Calling the functions: 
 CreateInvestorPropertyDictionary()
 CreatePropertyFolders()
 BalanceSheet()
