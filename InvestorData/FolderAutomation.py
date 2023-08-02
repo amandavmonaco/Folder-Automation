@@ -25,16 +25,6 @@ def TestFunctionToPrintDictionary():
             print(' INVESTOR: ' + investors)
 
 
-# def CreatePropertyFolders():
-#     root_dir='Property Folders ' + MonthYearFormat()
-
-#     for property in propertyKeyDictionary.keys():
-#         folderName = str(root_dir) + '/' + str(property)
-#         try: 
-#             os.makedirs(folderName)
-#         except:
-#             print(property + ' Directory Exists')
-
 def CreatePropertyFolders():
     root_dir = MonthYearFormat() + '/Property Folders'
 
