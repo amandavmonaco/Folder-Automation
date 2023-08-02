@@ -1,9 +1,11 @@
 import os 
 import shutil
 import pandas as pd
+from MonthAndYearFormat import *
 
 financialDocumentsPath = '/Users/amandamonaco/Documents/Folder Automation/12Month'
 propertyKeyDictionary = {}
+
 
 def CreateInvestorPropertyDictionary():
     try:
@@ -23,46 +25,98 @@ def TestFunctionToPrintDictionary():
             print(' INVESTOR: ' + investors)
 
 
-def CreatePropertyFoldersWithFinancialStatements():
-    root_dir = 'Property Folders'
-    for fileName in os.scandir(financialDocumentsPath):
-        if fileName.is_file():
-            f = str(fileName)
-            endingIndex = f.find('12') - 1
-            findDash = f.find('-')
-            if(findDash != -1):
-                endingIndex = findDash
-            startingIndex = 11
+# def CreatePropertyFolders():
+#     root_dir='Property Folders ' + MonthYearFormat()
 
-            trimmedFileName = f[startingIndex:endingIndex]
-            trimmedFileName[:-1]
-            
-            propFolderName = str(root_dir) + '/' + str(trimmedFileName)
-            try:
-                os.makedirs(propFolderName)
-                print(propFolderName+ ' made')
-            except FileExistsError:
-                print('Folder', trimmedFileName, 'already exists')
-                
-            shutil.copy(fileName, propFolderName)
+#     for property in propertyKeyDictionary.keys():
+#         folderName = str(root_dir) + '/' + str(property)
+#         try: 
+#             os.makedirs(folderName)
+#         except:
+#             print(property + ' Directory Exists')
+
+def CreatePropertyFolders():
+    root_dir = MonthYearFormat() + '/Property Folders'
+
+    for property in propertyKeyDictionary.keys():
+        folderName = str(root_dir) + '/' + str(property)
+        try: 
+            os.makedirs(folderName)
+        except:
+            print(property + ' Directory Exists')
+
+balanceSheetsPath = 'Bal Sheet'
+rentRollPath = 'Rent Roll'
+ytdPath = 'YTD'
+
+def BalanceSheet():
+   dest_dir = MonthYearFormat() + '/Property Folders'
+
+   for file in os.scandir(balanceSheetsPath):
+       if file.is_file():
+           temp = str(file)
+           endingIndex = temp.find('Balance Sheet') - 1
+           trimmedName = temp[11:endingIndex]
+           destination = dest_dir + '/' + trimmedName
+           if os.path.exists(destination):
+                shutil.copy(file, destination)
+           else:
+                os.makedirs(dest_dir + '/' + trimmedName)
+                shutil.copy(file, dest_dir + '/' + trimmedName)
+
+def IncomeStatement():
+   dest_dir = MonthYearFormat() + '/Property Folders'
+
+   for file in os.scandir(ytdPath):
+       if file.is_file():
+           temp = str(file)
+           endingIndex = temp.find('Income Statement') - 1
+           trimmedName = temp[11:endingIndex]
+           destination = dest_dir + '/' + trimmedName
+           if os.path.exists(destination):
+                shutil.copy(file, destination)
+           else:
+                os.makedirs(dest_dir + '/' + trimmedName)
+                shutil.copy(file, dest_dir + '/' + trimmedName)
+               
+def RentRoll():
+    dest_dir = MonthYearFormat() + '/Property Folders'
+
+    for file in os.scandir(rentRollPath):
+       if file.is_file():
+           temp = str(file)
+           endingIndex = temp.find('Rent Roll') - 1
+           trimmedName = temp[11:endingIndex]
+           destination = dest_dir + '/' + trimmedName
+           if os.path.exists(destination):
+                shutil.copy(file, destination)
+           else:
+                os.makedirs(dest_dir + '/' + trimmedName)
+                shutil.copy(file, dest_dir + '/' + trimmedName)
 
 
 def CreateInvestorFoldersWithPropertyStatements():
-    root_dir = 'Investor Folders'
+    root_dir = MonthYearFormat() + '/Investor Folders'
 
-    for folder in os.scandir('Property Folders'):
+    for folder in os.scandir(MonthYearFormat() + '/Property Folders'):
         investorNames = propertyKeyDictionary.get(folder.name)
         if investorNames != None:  
             for i in investorNames:
                 try: 
-                    path = os.makedirs(str(root_dir) + '/' + i)
+                    os.makedirs(str(root_dir) + '/' + i)
+                    shutil.copytree(MonthYearFormat() + '/Property Folders/' + folder.name, MonthYearFormat() + '/Investor Folders/' + i + '/' + folder.name)
                 except FileExistsError:
-                    print(i + ' folder already created')
-                shutil.copytree('Property Folders/' + folder.name, 'Investor Folders/' + i + '/' + folder.name)
+                    print(folder.name + ' Directory Exists')
+                    
                 
                 
 
 
 CreateInvestorPropertyDictionary()
-CreatePropertyFoldersWithFinancialStatements()
+CreatePropertyFolders()
+BalanceSheet()
+IncomeStatement()
+RentRoll()
 CreateInvestorFoldersWithPropertyStatements()
+
+
