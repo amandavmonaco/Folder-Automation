@@ -96,10 +96,11 @@ def CreateInvestorFoldersWithPropertyStatements():
             for i in investorNames:
                 try: 
                     os.makedirs(str(root_dir) + '/' + i)
-                    shutil.copytree(MonthYearFormat() + '/Property Folders/' + folder.name, MonthYearFormat() + '/Investor Folders/' + i + '/' + folder.name)
                 except FileExistsError:
                     print(folder.name + ' Directory Exists')
-                    
+                shutil.copytree(MonthYearFormat() + '/Property Folders/' + folder.name, 
+                                MonthYearFormat() + '/Investor Folders/' + i + '/' + folder.name,
+                                dirs_exist_ok=True)
 
 #Calling the functions: 
 CreateInvestorPropertyDictionary()
