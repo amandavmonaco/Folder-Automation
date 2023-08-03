@@ -3,15 +3,20 @@ import shutil
 import pandas as pd
 from MonthAndYearFormat import *
 
-financialDocumentsPath = '/Users/amandamonaco/Documents/Folder Automation/12Month'
 propertyKeyDictionary = {}
+
+#  These variables hold the names of the folders the financial statements are located in. The folder names must match exactly to these variables.
+#  These folders must also be located in the current working directory (where this program's files are located). If they aren't, you can change this path
+#  to a different format (e.g. '/Users/amandamonaco/Documents/Bal Sheet')
 balanceSheetsPath = 'Bal Sheet'
 rentRollPath = 'Rent Roll'
-ytdPath = 'YTD'
+IncomeStatementPath = 'YTD'
 
+#  This function will read in the provided excel file. The excel file must be named 'InvestorPropertiesPyFile' and also exist in the current working
+#  directory. If the file is incorrectly named or does not exist in the correct directory then there will be a statement printed to the terminal
 def CreateInvestorPropertyDictionary():
     try:
-        excelFile = pd.read_excel('InvestorPropertiesPyFile.xlsx')
+        excelFile = pd.read_excel('InvestorPropertiesPyFile.xlsx') 
     except FileNotFoundError:
         print('Investor Properties File was not found')
 
@@ -21,6 +26,7 @@ def CreateInvestorPropertyDictionary():
         propertyKeyDictionary[column] = filtered_values
 
 
+#  This is a test function and does not need to be called to make the program run
 def TestFunctionToPrintDictionary():
     for propertyKey in propertyKeyDictionary.keys():
         print('KEY: ' + propertyKey)
@@ -28,6 +34,8 @@ def TestFunctionToPrintDictionary():
             print(' INVESTOR: ' + investors)
 
 
+#  This function creates a folder named 'Property Folders' within the month.year folder. This folder will contain folders for all current properties
+#  with their balance sheet, rent roll, and income statement in them. The purpose is to be able to access any property's financial statements at any point
 def CreatePropertyFolders():
     root_dir = MonthYearFormat() + '/Property Folders'
 
@@ -38,7 +46,7 @@ def CreatePropertyFolders():
         except:
             print(property + ' Directory Exists')
 
-
+#  The following three functions pull the documents from the provided folders and place them into each property folder
 def BalanceSheet():
    dest_dir = MonthYearFormat() + '/Property Folders'
 
@@ -58,7 +66,7 @@ def BalanceSheet():
 def IncomeStatement():
    dest_dir = MonthYearFormat() + '/Property Folders'
 
-   for file in os.scandir(ytdPath):
+   for file in os.scandir(IncomeStatementPath):
        if file.is_file():
            temp = str(file)
            endingIndex = temp.find('Income Statement') - 1
@@ -72,7 +80,7 @@ def IncomeStatement():
 
 
 def RentRoll():
-    dest_dir = MonthYearFormat() + '/Property Folders'
+    dest_dir = MonthYearFormat() + '/Property Folders' 
 
     for file in os.scandir(rentRollPath):
        if file.is_file():
@@ -87,6 +95,9 @@ def RentRoll():
                 shutil.copy(file, dest_dir + '/' + trimmedName)
 
 
+#  This function will create folders for each Investor within a the month.year folder and under another folder named 'Investor Folders'. Each Investor
+#  will have a folder for the properties they are listed under within the provided excel file. If the property is a commercial property or has been sold
+#  but has not been removed from the excel sheet, there will be an empty folder named with the title of the property.
 def CreateInvestorFoldersWithPropertyStatements():
     root_dir = MonthYearFormat() + '/Investor Folders'
 
