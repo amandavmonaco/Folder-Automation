@@ -4,6 +4,7 @@ import pandas as pd
 from MonthAndYearFormat import *
 
 propertyKeyDictionary = {}
+monthYear = MonthYearFormat()
 
 #  These variables hold the names of the folders the financial statements are located in. The folder names must match exactly to these variables.
 #  These folders must also be located in the current working directory (where this program's files are located). If they aren't, you can change this path
@@ -37,7 +38,7 @@ def TestFunctionToPrintDictionary():
 #  This function creates a folder named 'Property Folders' within the month.year folder. This folder will contain folders for all current properties
 #  with their balance sheet, rent roll, and income statement in them. The purpose is to be able to access any property's financial statements at any point
 def CreatePropertyFolders():
-    root_dir = MonthYearFormat() + '/Property Folders'
+    root_dir = monthYear + '/Property Folders'
 
     for property in propertyKeyDictionary.keys():
         folderName = str(root_dir) + '/' + str(property)
@@ -48,7 +49,7 @@ def CreatePropertyFolders():
 
 #  The following three functions pull the documents from the provided folders and place them into each property folder
 def BalanceSheet():
-   dest_dir = MonthYearFormat() + '/Property Folders'
+   dest_dir = monthYear + '/Property Folders'
 
    for file in os.scandir(balanceSheetsPath):
        if file.is_file():
@@ -64,7 +65,7 @@ def BalanceSheet():
 
 
 def IncomeStatement():
-   dest_dir = MonthYearFormat() + '/Property Folders'
+   dest_dir = monthYear + '/Property Folders'
 
    for file in os.scandir(IncomeStatementPath):
        if file.is_file():
@@ -80,7 +81,7 @@ def IncomeStatement():
 
 
 def RentRoll():
-    dest_dir = MonthYearFormat() + '/Property Folders' 
+    dest_dir = monthYear + '/Property Folders' 
 
     for file in os.scandir(rentRollPath):
        if file.is_file():
@@ -99,7 +100,7 @@ def RentRoll():
 #  will have a folder for the properties they are listed under within the provided excel file. If the property is a commercial property or has been sold
 #  but has not been removed from the excel sheet, there will be an empty folder named with the title of the property.
 def CreateInvestorFoldersWithPropertyStatements():
-    root_dir = MonthYearFormat() + '/Investor Folders'
+    root_dir = monthYear + '/Investor Folders'
 
     for folder in os.scandir(MonthYearFormat() + '/Property Folders'):
         investorNames = propertyKeyDictionary.get(folder.name)
